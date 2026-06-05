@@ -1,2 +1,11 @@
-# Inertia-refactored
-Migrated Inertia Artist Management site from HTML/vanilla JS/three.js/barba.js -> Next.js/R3F/GSAP/React-Transition-Group
+This is a Next.js project.
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+```
+
+Open http://localhost:3000 with your browser to see the result.
