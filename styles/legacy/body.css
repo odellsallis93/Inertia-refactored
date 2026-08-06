@@ -1,0 +1,311 @@
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+html {
+	height: 100vh;
+}
+
+body {
+	margin: 0;
+	min-height: 100%;
+	min-width: 100%;
+	overflow: hidden;
+}
+
+.bgHover {
+	grid-column: 1 / -1;
+	grid-row: 1 / -1;
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-rows: 20% 20% 20% 20% 20%;
+	grid-template-columns: 8% 8% 13% 21% 21% 21% 8%;
+	align-content: center;
+	z-index: 3;
+	overflow: hidden;
+	background-color: #1c1c1c !important;
+}
+
+.hvrBlk {
+	background-color: #1c1c1c !important;
+}
+
+.artistNav--reveal {
+	grid-column: 1 / span 1;
+	grid-row: 1 / span 2;
+	width: 100%;
+	height: 100%;
+	z-index: 5;
+	border-right: 1px solid #dbdbdb;
+	overflow: hidden;
+}
+
+.scrollingText__wrap {
+	grid-column: 2 / span 1;
+	grid-row: 1 / -1;
+	display: grid;
+	grid-template-columns: 50% 50%;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	line-height: 1;
+	background-color: #1c1c1c;
+}
+
+h3 {
+	font-family: "Roboto";
+	font-size: 2em;
+	line-height: 1;
+	writing-mode: vertical-rl;
+	-webkit-writing-mode: vertical-rl;
+	-ms-writing-mode: vertical-rl;
+	transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	font-weight: 700;
+	color: #ffffff;
+	mix-blend-mode: exclusion;
+}
+
+.revitem {
+	width: auto;
+	min-height: 100%;
+	position: absolute;
+	z-index: 2;
+	visibility: hidden;
+	overflow: hidden;
+	object-fit: cover;
+}
+
+.tiltFx--wrap1 {
+	grid-column: 1 / 1;
+	grid-row: 1 / -1;
+	display: flex;
+	position: absolute;
+	z-index: 1;
+	flex-flow: row wrap;
+	overflow: hidden;
+	/*  transform: translate(0, 100%); */
+	height: 300vh;
+	width: 100%;
+	opacity: 1;
+}
+
+.tiltFx--wrap2 {
+	grid-column: 2 / span 1;
+	grid-row: 1 / -1;
+	display: flex;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	flex-direction: column;
+	justify-content: space-around;
+	border-left: 1px solid #4d4d4d;
+	z-index: 0;
+	opacity: 1;
+}
+
+.boxMarquee {
+	display: flex;
+	position: relative;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 50vh;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	opacity: 0.5;
+}
+
+/* Individual images */
+.tiltFx__img {
+	display: block;
+	opacity: 0.9;
+	width: min(100%, 45vh);
+	height: auto;
+	max-width: 100%;
+	max-height: 45vh;
+	position: relative;
+	z-index: 3;
+	object-fit: contain;
+	filter: url(#teal-white);
+	-webkit-filter: url(#teal-white);
+}
+
+.ourRostertx {
+	grid-row: 1 / span 1;
+	grid-column: 1 / span 1;
+	display: flex;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	align-items: flex-end;
+	z-index: 11;
+	mix-blend-mode: exclusion;
+	top: 10px;
+}
+
+.scrollingText__top {
+	grid-row: 1 / span 1;
+	grid-column: 1 / span 1;
+	display: flex;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	justify-self: flex-start;
+	align-items: center;
+	z-index: 11;
+	mix-blend-mode: exclusion;
+}
+
+h2 {
+	font-family: "Roboto";
+	font-size: 4.5vw;
+	writing-mode: vertical-rl;
+	-webkit-writing-mode: vertical-rl;
+	-ms-writing-mode: vertical-rl;
+	transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	font-weight: 700;
+	color: #0000001a;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: rgb(255, 255, 255);
+	position: relative;
+	mix-blend-mode: exclusion;
+	z-index: 1;
+}
+
+.artistNav__wrap a {
+	width: 100%;
+	height: 33%;
+	display: flex;
+	position: relative;
+	align-items: center;
+	justify-content: center;
+	border-bottom: 1px solid #dbdbdb;
+	z-index: 3;
+}
+
+.artistNav__wrap {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	flex-flow: row wrap;
+	display: flex;
+	grid-column: 3 / span 2;
+	grid-row: 1 / -1;
+	width: 100%;
+	height: 100%;
+	align-content: flex-start;
+	border-left: 1px solid #dbdbdb;
+	background-color: #1c1c1c;
+}
+
+/* .artistNav__wrap .artistNav--caash::before {
+    content: "";
+    position: absolute;
+    border-top:1px solid #dbdbdb; 
+    height: 100%;
+    width: 100%;
+} */
+
+.about-headers h1 {
+	font-size: 5vw;
+	font-family: "Raleway";
+	font-weight: 700;
+	z-index: 3;
+	line-height: 0.8;
+	text-transform: uppercase;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: rgb(255, 255, 255);
+	mix-blend-mode: difference;
+	color: #d4d4d4;
+}
+
+.navText {
+	position: absolute;
+	text-align: center;
+	pointer-events: none;
+	display: flex;
+	align-self: center;
+}
+
+.about-headers .navText {
+	font-family: "Roboto";
+}
+
+.roster__img-wrap {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	display: flex;
+	overflow: hidden;
+	margin: 0;
+}
+
+.roster__img {
+	display: flex;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	min-height: 100%;
+	max-width: 100%;
+	transform: translate(-50%, -50%);
+	object-fit: cover;
+}
+
+.label {
+	display: flex;
+}
+
+.mgmt {
+	display: flex;
+}
+
+.displayNone {
+	display: none !important;
+}
+
+.mgmtWrapper {
+	display: flex;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: #d4d4d4;
+
+	color: transparent;
+}
+
+.mainFilterWrapper {
+	display: flex;
+	position: relative;
+	transform: translate(0, 5px);
+}
+
+.rosterWrapper {
+	display: flex;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: #d4d4d4;
+	position: relative;
+	color: transparent;
+}
+
+.labelWrapper {
+	display: flex;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: #d4d4d4;
+	position: relative;
+	color: transparent;
+}
+
+h3 .profileCat {
+	transform: translate(4%, 0);
+}

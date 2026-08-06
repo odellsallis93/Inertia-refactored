@@ -1,0 +1,208 @@
+@media (min-device-width:320px) and (max-device-width:500px) and (orientation:portrait) {
+    .fullSite-Wrapper {
+        visibility: hidden
+    }
+
+    .fullPage,
+    .fullSite-Wrapper,
+    .fullSite-WrapperWel {
+        grid-template-columns: 16% 17% 17% 17% 17% 16%;
+        grid-template-rows: 13% 37% 37% 13%
+    }
+
+    .bgHover {
+        grid-column: 1/-1 !important;
+        grid-row: 1/-1;
+        grid-template-rows: 20% 20% 20% 20% 20%;
+        grid-template-columns: 16% 17% 17% 17% 17% 16%;
+        align-content: center;
+        overflow: hidden;
+        z-index: 3
+    }
+
+    .bgHover,
+    .idText_wrap {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        background-color: #1c1c1c
+    }
+
+    .idText_wrap {
+        grid-column: 1/span 1;
+        grid-row: 3/-1;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 100%;
+        position: relative;
+        line-height: 1
+    }
+
+    .profileSection__wrap {
+        grid-column: 2/span 4;
+        grid-row: 1/-1;
+        display: grid
+    }
+
+    .artistNav__wrap {
+        grid-column: 2/span 4;
+        grid-row: 1/-1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        flex-flow: row wrap;
+        display: flex;
+        width: 100%;
+        height: 100vh;
+        max-height: 100vh;
+        align-content: start;
+        border-left: 1px solid #dbdbdb;
+        border-right: 1px solid #dbdbdb;
+        background-color: #1c1c1c;
+        z-index: 2
+    }
+
+    .roster__img {
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        object-fit: cover;
+        transform: translate(-50%, -50%)
+    }
+
+
+    .artistNav__link {
+        height: 25vh !important;
+        width: 100%;
+    }
+
+    .landingHeader .fbIcon-Wrapper {
+        left: 100%;
+        top: -30%
+    }
+
+    .landingHeader .igIcon-Wrapper {
+        align-items: center !important;
+        justify-items: center !important
+    }
+
+    .hoverImage--1,
+    .hoverImage--2,
+    .hoverImage--3 {
+        width: 140% !important;
+        height: auto !important
+    }
+
+    .jordanVid {
+        width: 160% !important
+    }
+
+    .gridleft {
+        display: none !important;
+        visibility: hidden !important
+    }
+
+    .overlayGrid {
+        visibility: hidden
+    }
+
+    h2 .artistName {
+        font-size: 2.3rem;
+        align-items: flex-start !important
+    }
+
+    h3 {
+        font-size: 1.7rem
+    }
+
+    h1 {
+        font-size: 3rem !important
+    }
+
+    .sideLines__menu {
+        width: 90%
+    }
+
+    .socialGrid {
+        top: 4%;
+        transform: translateX(-30%) !important
+    }
+
+    .mobileLogo__Full {
+        z-index: 2;
+        grid-area: 1 / 1 / -1 / -1;
+        place-self: start center;
+        overflow: visible;
+        transform: rotate(-90deg);
+        visibility: visible !important;
+        width: auto;
+        height: 70px;
+        margin: 0;
+        position: relative !important;
+        top: 17%;
+        left: 10%;
+    }
+
+    .logoMobile__Sideways {
+        grid-column: 1/span 1;
+        grid-row: 1/span 2;
+        display: grid !important;
+        grid-template-columns: 100%;
+        grid-template-rows: 100%;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        visibility: hidden;
+        background-color: #1c1c1c;
+        justify-items: center;
+        z-index: -1
+    }
+
+    .inertiatext {
+        fill: #fff
+    }
+
+    h2 small {
+        align-items: flex-end !important;
+        font-size: 1.9rem !important;
+        align-content: start !important
+    }
+
+    .profileCat {
+        font-size: 1.2rem !important;
+        align-content: center !important
+    }
+
+    .sideMenu__text {
+        top: 24%
+    }
+
+    .link--kukuri {
+        font-size: 2.5em !important
+    }
+
+    .closeButton {
+        max-width: 10%;
+        transform: translate(-40vw, -44%) !important
+    }
+
+    .artistProfileCat {
+        display: none !important
+    }
+
+    h1 {
+        margin-top: 0 !important;
+    }
+
+    .lightbox-close {
+        width: 20% !important;
+        height: 10% !important;
+    }
+
+    #moviePlayer {
+        transform: translate(5%, 70%) !important;
+        width: 90% !important;
+        height: 40% !important;
+    }
+}

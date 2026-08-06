@@ -34,3 +34,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# animation verification artifacts
+/.cursor/artifacts/animations/*
+!/.cursor/artifacts/animations/.gitkeep
+
+/discord-post-GPT-versions/
+/extracted-openai-log/

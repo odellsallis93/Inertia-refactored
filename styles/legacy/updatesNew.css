@@ -1,0 +1,374 @@
+.sideMenu__text {
+	font-family: "Roboto";
+	font-weight: 400;
+	font-size: min(14px, 20cqi);
+	color: #ffffff;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	top: 24%;
+	pointer-events: none;
+	overflow: hidden;
+}
+
+.siteMenu__link--wrap {
+	align-items: center;
+	container-type: inline-size;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-flow: column;
+	border-bottom: 1px solid #444444;
+	cursor: pointer;
+}
+
+.sideLines__menu {
+	fill: #ffffff;
+	width: 80%;
+	height: 100%;
+	position: absolute;
+	display: flex;
+	top: -10%;
+}
+
+/* Lives inside the header's internal grid (rows 13% 37% 37% 13%);
+   row 1 matches the body-grid band it previously occupied. */
+.siteMenu-Wrapper {
+	grid-column: 1 / span 1;
+	grid-row: 1 / span 1;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	z-index: 2;
+	background-color: #1c1c1c;
+	display: flex;
+	cursor: pointer;
+}
+
+.siteMenu-Wrapper > * {
+	pointer-events: none;
+}
+
+.closeButton > * {
+	pointer-events: none;
+}
+
+.landingHeader {
+	background-color: #1c1c1c;
+	border-left: 1px solid #dbdbdb;
+}
+
+.navTwist3 {
+	border: none;
+}
+
+.logoMobile__Sideways {
+	display: none;
+}
+
+.siteMenu__link--wrap {
+	z-index: 1;
+}
+
+.socialIcons-Wrapper {
+	z-index: 1;
+}
+
+.closeButton:hover {
+	fill: #39b54a !important;
+}
+
+.closeButton {
+	transition: all 0.5s linear;
+	-webkit-transition: all 0.5s linear;
+	-moz-transition: all 0.5s linear;
+	-ms-transition: all 0.5s linear;
+	-o-transition: all 0.5s linear;
+}
+
+.menu__link:hover .navMenu-text {
+	color: #39b54a;
+}
+
+.menu__link li {
+	transition: all 0.3s linear;
+	-webkit-transition: all 0.3s linear;
+	-moz-transition: all 0.3s linear;
+	-ms-transition: all 0.3s linear;
+	-o-transition: all 0.3s linear;
+}
+
+.offNav__wrap {
+	grid-column: 1 / -1;
+	grid-row: 1 / -1;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	position: fixed;
+	overflow: hidden;
+	flex-flow: column;
+	background-color: #1c1c1c;
+	z-index: 2;
+	align-items: center;
+	justify-content: space-evenly;
+	visibility: visible;
+}
+
+.offNav {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	position: absolute;
+	flex-flow: column;
+	justify-content: space-evenly;
+	text-align: center;
+}
+
+.offNav__text > li {
+	overflow: hidden !important;
+}
+
+.offNav__text {
+	display: flex;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	flex-flow: row wrap;
+	align-items: center;
+	justify-content: space-evenly;
+	/* margin: 10%; */
+}
+
+.linkAnim {
+	display: flex;
+	color: #ffffff !important;
+	mix-blend-mode: exclusion;
+	overflow: hidden;
+	position: absolute;
+	z-index: 99;
+}
+
+.closeButton {
+	fill: white !important;
+	max-width: 3%;
+	transform: translate(-45vw, -44vh) !important;
+	height: 100%;
+	position: absolute;
+	cursor: pointer;
+}
+
+/*=============================================
+=            media slide hover animations            =
+=============================================*/
+
+.videoWrap:hover .videoThumb {
+	perspective: 350em;
+	transform: translatez(0em);
+	-webkit-transform: translatez(0em);
+	-moz-transform: translatez(0em);
+	-ms-transform: translatez(0em);
+	-o-transform: translatez(0em);
+}
+
+.videoWrap:hover .triTwo {
+	transform: translate(-2%, -3.6%);
+	fill: black;
+	transition: all 1s ease-in-out;
+}
+
+.videoWrap:hover .triOne {
+	transform: translate(2%, 3.6%);
+	fill: black;
+	transition: all 1s ease-in-out;
+}
+
+.videoWrap:hover .playButton {
+	transform: translatez(0em);
+}
+
+.videoWrap:hover .cls-1 {
+	stroke: black;
+}
+
+.videoWrap:hover .cls-2 {
+	stroke: black;
+}
+
+/*=====  End of media slide hover animations  ======*/
+
+/*----------  media slide section  ----------*/
+
+.cls-1 {
+	stroke-width: 4px;
+}
+
+.cls-2 {
+	stroke-width: 2px;
+}
+
+.playButton .videoWrap .cls-1,
+.videoWrap .cls-2 {
+	transition: all 1s ease-in-out;
+	z-index: 2;
+}
+
+.videoWrap .cls-1 {
+	stroke: black;
+	transition: all 1s ease-in-out;
+	fill: transparent !important;
+	z-index: 2;
+	-webkit-transition: all 1s ease-in-out;
+	-moz-transition: all 1s ease-in-out;
+	-ms-transition: all 1s ease-in-out;
+	-o-transition: all 1s ease-in-out;
+}
+
+.videoWrap .cls-2 {
+	stroke: white;
+	transition: all 1s ease-in-out;
+	fill: transparent !important;
+	z-index: 2;
+	-webkit-transition: all 1s ease-in-out;
+	-moz-transition: all 1s ease-in-out;
+	-ms-transition: all 1s ease-in-out;
+	-o-transition: all 1s ease-in-out;
+}
+
+.mediaWrap > a {
+	display: flex;
+	width: min(75%, 45vh);
+	min-width: 0;
+	max-width: 100%;
+	height: auto;
+	align-self: center;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	perspective: 200em;
+	padding: 0em 0em;
+}
+
+.mediaWrap {
+	display: flex;
+	position: relative;
+	flex-flow: row;
+	width: 100%;
+	height: 100%;
+	box-shadow: inset 5px 10px 55px 22px #000000ad;
+	align-items: center;
+	justify-content: center;
+}
+
+.videoThumb {
+	display: block;
+	max-width: 100%;
+	width: 100%;
+	height: auto;
+	margin: 0.3em 0em 0.3em 0em;
+	transition: transform 1s ease-in-out;
+	cursor: pointer;
+	align-self: center;
+	-webkit-transform: translatez(-50em);
+	-moz-transform: translatez(-50em);
+	-ms-transform: translatez(-50em);
+	-o-transform: translatez(-50em);
+}
+
+.videoWrap .playButton {
+	position: absolute;
+	width: 30%;
+	align-self: center;
+	pointer-events: none;
+	transition: transform 1s ease-in-out;
+	transform: translatez(10em);
+	-webkit-transform: translatez(10em);
+	-moz-transform: translatez(10em);
+	-ms-transform: translatez(10em);
+	-o-transform: translatez(10em);
+}
+
+.videoWrap .triOne,
+.videoWrap .triTwo {
+	fill: white;
+
+	transition: all 1s ease-in-out;
+}
+
+.fbLink {
+	z-index: 10;
+}
+
+.igLink {
+	z-index: 10;
+}
+
+.artistSocial,
+.igArtistLink {
+	z-index: 10;
+}
+
+#overlay {
+	grid-column: 1 / -1;
+	grid-row: 1 / -1;
+	position: absolute;
+	z-index: 99999999;
+	visibility: hidden;
+	overflow: visible;
+	width: 100%;
+	height: 100%;
+}
+
+#moviePlayer {
+	display: flex;
+	position: relative;
+	transform: translate(50%, 50%);
+	width: 50vw !important;
+	height: 50vh !important;
+}
+
+.lightboxWrapper {
+	justify-content: center;
+	align-items: center;
+	justify-content: center;
+	overflow: visible;
+	background: rgba(0, 0, 0, 0.9);
+	width: 100%;
+	height: 100%;
+}
+
+.lightbox-close {
+	grid-column: 1 / -1;
+	grid-row: 1 / -1;
+	text-transform: uppercase;
+	background: white;
+	width: 3%;
+	height: 3%;
+	position: absolute;
+	display: flex;
+	font-weight: 300;
+	font-size: 15px;
+	display: flex;
+	border: none;
+	color: black;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+.lightbox-close p {
+	font-family: Raleway;
+	font-weight: 500;
+}
+
+.video-container iframe,
+.video-container object,
+.video-container embed {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	top: 0;
+}

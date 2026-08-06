@@ -1,0 +1,8 @@
+<svg id="instagramLand" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41.99 41.99">
+    <path d="M13.76,42.84H31.94a10.9,10.9,0,0,0,10.9-10.91V13.75A10.9,10.9,0,0,0,31.93,2.85H13.75A10.9,10.9,0,0,0,2.85,13.76V31.94A10.9,10.9,0,0,0,13.76,42.84Z"
+        transform="translate(-1.85 -1.85)" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px" />
+    <path d="M22.85,12.85a10,10,0,1,0,10,10A10,10,0,0,0,22.85,12.85Z" transform="translate(-1.85 -1.85)"
+        style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px" />
+    <path d="M34.66,9.21a1.82,1.82,0,0,0,0,3.64h0a1.82,1.82,0,1,0,0-3.64Z" 
+    transform="translate(-1.85 -1.85)" />
+    </svg>

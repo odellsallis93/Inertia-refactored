@@ -1,0 +1,273 @@
+.fullSite-WrapperWel {
+	grid-row: 1 / -1;
+	grid-column: 1 / -1;
+	display: grid;
+	grid-gap: 0%;
+	grid-template-columns: 8% 21% 21% 21% 21% 8%;
+	grid-template-rows: 13% 37% 37% 13%;
+	padding: 0%;
+	margin: 0%;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	overflow: hidden;
+	background-color: black;
+	z-index: 999;
+}
+
+.sidePushWrap {
+	grid-row: 1 / -1;
+	grid-column: 1 / -1;
+	display: flex;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	justify-self: center;
+	overflow: visible;
+	z-index: 4;
+}
+
+.sidePush {
+	grid-row: 1 / -1;
+	grid-column: 1 / -1;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	fill: white;
+	align-self: center;
+	justify-self: center;
+	visibility: hidden;
+}
+
+.insigniaWrap {
+	grid-row: 1 / -1;
+	grid-column: 1 / -1;
+	display: flex;
+	position: absolute;
+	overflow: visible;
+	z-index: 4;
+	mix-blend-mode: difference;
+	width: 100%;
+	height: 100%;
+	align-self: center;
+}
+
+.insigniaLand {
+	fill: #fff;
+	visibility: hidden;
+	position: relative;
+	mix-blend-mode: difference;
+	display: grid;
+}
+
+.fullSvgWelcome {
+	grid-row: 1 / -1;
+	grid-column: 1 / -1;
+	position: absolute;
+	width: 80%;
+	display: flex;
+	visibility: hidden;
+	overflow: hidden;
+	align-self: center;
+	justify-self: center;
+	z-index: 2;
+	mix-blend-mode: difference;
+}
+
+.inertiatext_welc {
+	fill: green;
+	position: absolute;
+}
+
+.artistmgmtLand {
+	fill: white;
+	position: absolute;
+}
+
+.rectWrapGrcont {
+	grid-row: 1 / -1;
+	grid-column: 1 / -1;
+	display: grid;
+	grid-gap: 0%;
+	grid-template-columns: 100%;
+	grid-template-rows: 100%;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+	align-self: center;
+	justify-self: center;
+	z-index: 1;
+	fill: none;
+	background-color: none;
+}
+
+.rectWrapGr {
+	grid-row: 1 / -1;
+	grid-column: 1 / -1;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	fill: green;
+	align-self: center;
+	justify-self: center;
+	visibility: hidden;
+	top: -50%;
+}
+
+.rectWrapWt {
+	grid-row: 1 / -1;
+	grid-column: 1 / -1;
+	position: relative;
+	width: 100%;
+	height: 100;
+	display: flex;
+	fill: white;
+	align-self: center;
+	justify-self: center;
+	visibility: hidden;
+	top: -50%;
+}
+
+.rectWrapWtcont {
+	grid-row: 1 / -1;
+	grid-column: 1 / -1;
+	display: grid;
+	grid-gap: 0%;
+	grid-template-columns: 100%;
+	grid-template-rows: 100%;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+	align-self: center;
+	justify-self: center;
+	z-index: 1;
+	fill: none;
+	background-color: none;
+}
+
+.rectWrapOutcont {
+	grid-row: 1 / -1;
+	grid-column: 1 / -1;
+	display: grid;
+	grid-gap: 0%;
+	grid-template-columns: 100%;
+	grid-template-rows: 100%;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+	align-self: center;
+	justify-self: center;
+	z-index: 3;
+}
+
+.rectWrapOut {
+	grid-row: 1 / -1;
+	grid-column: 1 / -1;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	fill: black;
+	align-self: center;
+	justify-self: center;
+	visibility: hidden;
+	top: -50%;
+}
+/* .welcomeWrap {
+    grid-row: 1/ -1;
+    grid-column: 1 / -1;
+    position: absolute;
+display: flex;
+align-items: center;
+width: 100%;
+justify-content: center;
+height: 100%;
+mix-blend-mode: difference;
+} */
+
+.transCont__gridleftland {
+	display: flex;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+	color: transparent;
+	background-color: green;
+	visibility: hidden;
+	pointer-events: none;
+}
+
+.transCont__headerland {
+	display: flex;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+	visibility: hidden;
+	background-color: green;
+	pointer-events: none;
+}
+
+.transCont__aboutland {
+	display: flex;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 999;
+	visibility: hidden;
+	background-color: green;
+	pointer-events: none;
+}
+
+.transCont__overlayGridland {
+	display: flex;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 999;
+	background-color: green;
+	visibility: hidden;
+	pointer-events: none;
+}
+
+.transCont__Newsland {
+	display: flex;
+	position: absolute;
+	width: 100%;
+	height: 500%;
+	z-index: 999;
+	background-color: green;
+	visibility: hidden;
+	pointer-events: none;
+}
+
+.transBlk__ltland {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 999;
+	visibility: hidden;
+	background-color: #ffffff;
+	grid-column: 1 / -1;
+	grid-row: 1 / -1;
+	pointer-events: none;
+}
+
+.transBlk__ltland {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 999;
+	visibility: hidden;
+	background-color: #ffffff;
+	grid-column: 1 / -1;
+	grid-row: 1 / -1;
+	pointer-events: none;
+}

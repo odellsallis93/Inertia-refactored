@@ -1,0 +1,69 @@
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 812px) 
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: landscape) { 
+
+.menu__link--2, .menu__link--1, .menu__link--3  {
+    font-size: 70% !important;
+}
+
+.mobileLogo__Full {
+    height: auto !important;
+    aspect-ratio: 1 / 1;
+    width: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin: 0 !important;
+    align-self: start;
+}
+
+
+h2 small {
+    font-size: 1.7rem !important;
+    left: -0%;
+    transform: translate(0%, -3%);
+}
+
+h3 .profileCat{
+    font-size: 1.1rem !important;
+    transform: translate(4%, 0);
+}
+
+h2 .artistName {
+    font-size: 1.7rem !important;
+}
+
+.socialGrid {
+    left: -25% !important;
+}
+
+
+.sideLines__menu {
+    width: 80% !important;
+    top: -12%;
+}
+
+.rectWrapWt {
+    width: 300%;
+}
+
+.sidePush {
+    width: 300%;
+}
+h1 {
+    margin-top: 0 !important;
+}
+
+
+  }
+
+  @media only screen 
+  and (min-device-height: 736px) 
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: portrait) { 
+    h1 {
+        margin-top: 0 !important;
+    }
+
+  }

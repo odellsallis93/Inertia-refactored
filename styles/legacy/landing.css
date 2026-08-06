@@ -1,0 +1,107 @@
+
+
+.logo-wrapper {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 100%; 
+    grid-row: 1 / -1;
+    grid-column: 1 / -1;
+}
+
+.landingBkVid {
+    left:0;
+    top: 0;
+    position: fixed;
+    grid-row: 1 / -1;
+    grid-column: 1 / -1;
+    width: 100vw;
+    height: 100vh; 
+    object-fit: cover;
+}
+
+#landingLogo {
+    width: 100%;
+    height: 100%;    
+    align-self: center;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.bkOverlay {
+    left:0;
+    top: 0;
+    position: fixed;
+    grid-row: 1 / -1;
+    grid-column: 1 / -1;
+    width: 100vw;
+    height: 100vh; 
+    object-fit: cover;
+    background-color: green;
+    opacity: 0.2;
+}
+
+.icon-Wrapper {
+    display: grid;
+    position: absolute;
+    width: 100%;
+    height: 100%; 
+    grid-row: 4 / -1;
+    grid-column: 1 / -1;
+    align-items: end;
+    justify-content: end;
+    grid-template-columns: 100%;
+    grid-template-rows: 100%;
+    grid-auto-flow: row !important;
+    align-content: center;
+    align-items: end;
+    justify-items: end;
+    z-index: 2;
+}
+
+a > svg {
+    display: flex !important;
+    position: relative;
+    align-self: center;
+    margin: 5px;
+    width: 40px;
+    height: auto;
+    grid-row: 1 / -1; 
+    top: 25px;
+    left: -10px;
+}
+
+.mail-Full , .instagramLand, .facebookLand-Full {
+    display: flex !important;
+    position: relative;
+    align-self: center;
+    margin: 5px;
+    width: 40px;
+    height: auto;
+    grid-row: 1 / -1; 
+    top: 25px;
+    left: -10px;
+    flex-flow: column;
+}
+
+.mail-Full , .instagramLand, .facebookLand-Full::hover  {
+color: green;
+}
+
+.mail-Full{
+    fill: #ffffff
+}
+
+.facebookLand {
+    fill:none;
+    stroke:#fff;
+    stroke-miterlimit:10;
+    stroke-width:2px;    
+}
+
+@media (max-device-width : 500px) 
+and (orientation : portrait)  {
+    .mail-Full , .instagramLand, .facebookLand-Full {
+        width: 30px;
+}
+}

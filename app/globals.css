@@ -1,0 +1,53 @@
+/*
+ * Global CSS - Inertia Artist Management
+ * 
+ * This file consolidates all legacy CSS imports in the correct cascade order.
+ * Base styles are imported here and applied globally.
+ * Component-specific styles will be in CSS Modules.
+ */
+
+/* ============================================
+   1. Reset & Normalize
+   ============================================ */
+@import "../styles/legacy/normalize.css";
+
+/* ============================================
+   2. Base Styles & Layout Grid
+   ============================================ */
+@import "../styles/legacy/mainStyles.css";
+
+/* ============================================
+   3. Component Base Styles
+   ============================================ */
+@import "../styles/legacy/all.css";
+@import "../styles/legacy/body.css";
+
+/* ============================================
+   4. Feature-Specific Styles
+   ============================================ */
+@import "../styles/legacy/updatesNew.css";
+@import "../styles/legacy/menuAnim.css";
+@import "../styles/legacy/navMenu.css";
+/* Intro animation styles: the welcome overlay is rendered by SiteChrome
+   (root layout), so its CSS must be global rather than home-segment-only. */
+@import "../styles/legacy/welcomeAnim.css";
+
+/* ============================================
+   5. Media Queries & Responsive
+   ============================================ */
+@import "../styles/legacy/mediaQueries.css";
+@import "../styles/legacy/mobilePlus.css";
+
+/* Note: moblieLandscape.css is conditionally loaded via moblieLandscape.link.css */
+@import "../styles/legacy/moblieLandscape.link.css";
+
+/* ============================================
+   6. Transition flash prevention
+   ============================================ */
+html, body {
+  background-color: #1c1c1c;
+}
+
+.transBlk__lt {
+  background-color: #1c1c1c !important;
+}

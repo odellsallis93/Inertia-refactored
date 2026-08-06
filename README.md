@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Inertia — Frontend
+
+A simplified version of a client's frontend, rebuilt on a modern stack. The site is animation-heavy: a welcome intro, page transitions, an off-canvas menu, marquees, and video lightboxes are all core to the experience.
+
+The original version was written by hand, pre-AI. It has since been migrated and converted to Next.js via [Cursor](https://cursor.com), using a custom skill I have written to ensure animation parity across the migration (see [Animation Parity Tooling](#animation-parity-tooling) below).
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org) (App Router)
+- [React](https://react.dev)
+- [GSAP](https://gsap.com) with `[@gsap/react](https://gsap.com/resources/React/)`
+- [react-transition-group](https://reactcommunity.org/react-transition-group/)
+- TypeScript
+
+
 
 ## Getting Started
 
-First, run the development server:
+This project uses [Bun](https://bun.sh):
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install
+bun run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Other scripts:
 
-This project uses `next/font` to automatically optimize and load Geist, a new font family for Vercel.
+```bash
+bun run build   # production build
+bun run start   # serve the production build
+bun run lint    # run ESLint
+```
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
 
-- Next.js Documentation - learn about Next.js features and API.
-- Learn Next.js - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out the Next.js GitHub repository - your feedback and contributions are welcome!
+- `app/` — App Router routes: home, about, and artist detail pages
+- `components/` — site chrome (menu, transitions, lightbox), home sections, and shared UI
+- `hooks/` — animation hooks (marquee, menu, page transitions)
+- `data/` — artist, news, and video content
+- `styles/legacy/` — CSS carried over from the original implementation
+- `lib/gsap.ts` — GSAP setup and plugin registration
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the Vercel Platform from the creators of Next.js.
 
-Check out our Next.js deployment documentation for more details.
+## Animation Parity Tooling
+
+Animation changes are verified against the original implementation using the `anim:*` scripts (recording, frame extraction, and frame diffing):
+
+```bash
+bun run anim:record:original
+bun run anim:record:migrated
+bun run anim:extract
+bun run anim:diff
+bun run anim:review
+```
+
+The behavior spec lives at `.cursor/docs/animation-behavior-spec.md`, and evidence bundles are stored under `.cursor/artifacts/animations/`.
