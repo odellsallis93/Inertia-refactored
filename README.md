@@ -1,4 +1,6 @@
-# Inertia — Frontend
+# Inertia — Front-end
+
+**Live site:** [https://inertia-refactored.vercel.app/](https://inertia-refactored.vercel.app/)
 
 A simplified version of a client's frontend, rebuilt on a modern stack. The site is animation-heavy: a welcome intro, page transitions, an off-canvas menu, marquees, and video lightboxes are all core to the experience.
 

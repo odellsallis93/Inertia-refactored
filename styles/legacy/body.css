@@ -58,7 +58,7 @@ body {
 }
 
 h3 {
-	font-family: "Roboto";
+	font-family: Arial, sans-serif;
 	font-size: 2em;
 	line-height: 1;
 	writing-mode: vertical-rl;
@@ -167,7 +167,7 @@ h3 {
 }
 
 h2 {
-	font-family: "Roboto";
+	font-family: Arial, sans-serif;
 	font-size: 4.5vw;
 	writing-mode: vertical-rl;
 	-webkit-writing-mode: vertical-rl;
@@ -241,7 +241,7 @@ h2 {
 }
 
 .about-headers .navText {
-	font-family: "Roboto";
+	font-family: Arial, sans-serif;
 }
 
 .roster__img-wrap {

@@ -1,5 +1,5 @@
 .sideMenu__text {
-	font-family: "Roboto";
+	font-family: Arial, sans-serif;
 	font-weight: 400;
 	font-size: min(14px, 20cqi);
 	color: #ffffff;
@@ -27,7 +27,7 @@
 
 .sideLines__menu {
 	fill: #ffffff;
-	width: 80%;
+	width: 70%;
 	height: 100%;
 	position: absolute;
 	display: flex;
