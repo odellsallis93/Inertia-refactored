@@ -7,11 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "anim:record:original": "bash .cursor/skills/animation-parity/scripts/animation/record-original.sh",
-    "anim:record:migrated": "bash .cursor/skills/animation-parity/scripts/animation/record-migrated.sh",
-    "anim:extract": "bash .cursor/skills/animation-parity/scripts/animation/extract-frames.sh",
-    "anim:diff": "node .cursor/skills/animation-parity/scripts/diff-frames.mjs",
-    "anim:review": "bash .cursor/skills/animation-parity/scripts/animation/review-flow.sh"
+    "anim:record:original": "bash \"$HOME/.cursor/skills/animation-parity/scripts/animation/record-original.sh\"",
+    "anim:record:migrated": "bash \"$HOME/.cursor/skills/animation-parity/scripts/animation/record-migrated.sh\"",
+    "anim:extract": "bash \"$HOME/.cursor/skills/animation-parity/scripts/animation/extract-frames.sh\"",
+    "anim:diff": "node \"$HOME/.cursor/skills/animation-parity/scripts/diff-frames.mjs\"",
+    "anim:review": "bash \"$HOME/.cursor/skills/animation-parity/scripts/animation/review-flow.sh\""
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

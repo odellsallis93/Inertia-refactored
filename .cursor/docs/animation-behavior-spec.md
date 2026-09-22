@@ -55,13 +55,14 @@ Reveal the home page through the one-time welcome composition, then reveal the p
 | 1,000–5,800 ms | white sweep | The white rectangle grows through four skewed horizontal stages. | The welcome SVG remains the only visible composition. |
 | about 5,500–7,100 ms | green sweep and word reveal | Green vertical sweep appears; the INERTIA and Artist Management paths become visible and white while the insignia turns green. White and green sweeps collapse according to their overlapping timelines. | Welcome text remains presentation-only SVG content. |
 | about 7,600–9,800 ms | black wipe and side sweep | Black wipe covers behind the departing insignia; insignia travels right as the white side overlay expands across the page. | The welcome layer must remain visually continuous; no page-content flash is allowed. |
-| about 9,800–12,400 ms | page cover exchange | White `.transBlk__lt` covers, the persistent shell becomes visible behind it, then the white cover collapses upward. The grid/header/news/about overlay slices retract rightward after a two-second delay. | `.fullSite-Wrapper` becomes visible. Welcome layer is hidden and then removed from the rendered tree when `markPlayed()` updates context. |
-| about 12,400–13,100 ms | page text entrance | `.allText` enters from `xPercent: -100` to `0` with an expo ease. | Persistent route content is available for normal interaction. |
+| about 9,800–11,000 ms | page cover exchange | Green `.transBlk__lt` (class `transBlk__lt--welcome`, z-index 1000) swipes up from the bottom over the fully-covering white side panel in 600 ms; the welcome layer keeps opacity 1 throughout and is hidden in one step once the cover is fully up (no fade). In that same step the persistent shell is switched on (no fade) and the cover immediately collapses upward over 600 ms onto the matching green slices. | `.fullSite-Wrapper` becomes visible. Welcome layer is hidden and then removed from the rendered tree when `markPlayed()` updates context; `transBlk__lt--welcome` is removed on completion so route transitions keep the dark cover. |
+| about 10,800–11,400 ms | slice reveal | The grid/header/news/about overlay slices retract rightward over 600 ms, starting 200 ms before the cover lift ends (inside its expo.inOut tail, where the cover is visually gone). | Home layout is exposed only where both covers are gone; no blank frame. |
+| about 11,400–12,100 ms | page text entrance | `.allText` enters from `xPercent: -100` to `0` with an expo ease. | Persistent route content is available for normal interaction. |
 
 **Timing**
 
-- Duration: approximately 13,100 ms from first welcome frame through text entrance; overlapping timeline positions are intentional.
-- Delay: white sweep begins 1,000 ms after welcome start; transition-slice reveal waits 2,000 ms after its own reveal sequence starts.
+- Duration: approximately 12,100 ms from first welcome frame through text entrance; overlapping timeline positions are intentional.
+- Delay: white sweep begins 1,000 ms after welcome start; the intro's transition-slice retract uses an 800 ms internal delay against its `"<-1"` placement, so it begins 200 ms before the cover lift ends (the route-transition copy in `SiteChrome` keeps its 2,000 ms hold).
 - Easing: `back.out(2)`, `expo.out`, `expo.inOut`, `expo.in`, and `sine.in` as assigned by the individual GSAP sub-timelines.
 - Start and end tolerance: 100 ms.
 

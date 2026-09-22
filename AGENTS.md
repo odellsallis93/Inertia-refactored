@@ -35,7 +35,8 @@ scroll choreography, overlays, intros, menus, or modals:
 - Prefer faithful ports of imperative animation logic first, then refactor.
 - Keep animation logic in isolated files, not giant mixed UI components.
 
-A task is not done until the evidence bundle supports the claim. Use
-`.cursor/artifacts/animations/<flow>/` and the `anim:*` scripts in `package.json`;
-each test run stores the behavior spec and capture metadata alongside its
-evidence.
+A task is not done until the evidence bundle supports the claim. Use the global
+`animation-parity` skill at `~/.cursor/skills/animation-parity/`, store evidence
+under `.cursor/artifacts/animations/<flow>/`, and run the `anim:*` scripts in
+`package.json`; each test run stores the behavior spec and capture metadata
+alongside its evidence.

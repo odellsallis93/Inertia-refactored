@@ -195,6 +195,7 @@ h2 {
 	justify-content: center;
 	border-bottom: 1px solid #dbdbdb;
 	z-index: 3;
+	font-family: Arial, sans-serif;
 }
 
 .artistNav__wrap {
@@ -238,6 +239,7 @@ h2 {
 	pointer-events: none;
 	display: flex;
 	align-self: center;
+	font-family: Arial, sans-serif;
 }
 
 .about-headers .navText {

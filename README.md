@@ -4,7 +4,7 @@
 
 A simplified version of a client's frontend, rebuilt on a modern stack. The site is animation-heavy: a welcome intro, page transitions, an off-canvas menu, marquees, and video lightboxes are all core to the experience.
 
-The original version was written by hand, pre-AI. It has since been migrated and converted to Next.js via [Cursor](https://cursor.com), using a custom skill I have written to ensure animation parity across the migration (see [Animation Parity Tooling](#animation-parity-tooling) below).
+The original version was written by hand, pre-AI. It has since been migrated and converted to Next.js via [Cursor](https://cursor.com), using a global `animation-parity` skill (`~/.cursor/skills/animation-parity/`) to ensure animation parity across the migration (see [Animation Parity Tooling](#animation-parity-tooling) below).
 
 ## Tech Stack
 

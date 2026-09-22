@@ -46,8 +46,38 @@
    ============================================ */
 html, body {
   background-color: #1c1c1c;
+  font-family: Arial, sans-serif;
+}
+
+/* Menu items and links use Arial; Raleway stays on display headings only */
+a,
+.menu__link,
+.menu__link li,
+.navMenu-text,
+.link--kukuri,
+.linkAnim,
+.sideMenu__text,
+.navText,
+.artistNav__link,
+.artistNav__wrap h1,
+.navLinks,
+.navLinks a,
+.offNav a,
+.siteMenu__link--wrap,
+.fbLink,
+.igLink,
+.igArtistLink,
+.mediaWrap > a {
+  font-family: Arial, sans-serif;
 }
 
 .transBlk__lt {
   background-color: #1c1c1c !important;
+}
+
+/* Welcome intro only: the cover swipes up green over the white side panel,
+   so it must paint above .fullSite-WrapperWel (z-index 999). */
+.transBlk__lt.transBlk__lt--welcome {
+  background-color: green !important;
+  z-index: 1000;
 }

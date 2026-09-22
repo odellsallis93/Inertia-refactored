@@ -35,6 +35,7 @@
     text-decoration: none;
     position: relative;
     border-right: 1px solid #888888;
+    font-family: Arial, sans-serif;
     transition: all .5s ease-in-out ;
     -webkit-transition: all .5s ease-in-out ;
     -moz-transition: all .5s ease-in-out ;
