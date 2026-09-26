@@ -149,7 +149,7 @@ background-color: #dbdbdb;
     position: relative;
     width: 100%;
     height: 100%;
- 
+    container-type: size;
 }
 
 .mainLogoFull {
@@ -171,6 +171,27 @@ background-color: #dbdbdb;
     overflow: visible !important;
           
     }
+
+/*
+ * The viewBox (100x100) is smaller than the artwork (~267 wide), so the SVG
+ * spills out of its box and preserveAspectRatio centres it. With the 100% x 35%
+ * box above, that spill depends on the viewport aspect ratio, which pushed the
+ * logo down on tablets. A square box scaled to min(column width, 35% of the
+ * logo row) keeps the same artwork size, and rotating about the top-left corner
+ * lets the translate pin the top of the artwork to the top of the column.
+ */
+@supports (width: 1cqw) {
+    .mainLogoFull {
+        --logo-box: min(100cqw, 35cqh);
+        width: var(--logo-box);
+        height: var(--logo-box);
+        align-self: start;
+        transform-origin: 0 0;
+        -webkit-transform-origin: 0 0;
+        transform: translateY(285%) rotate(-90deg);
+        -webkit-transform: translateY(285%) rotate(-90deg);
+    }
+}
 
 .footer {
     display: flex;

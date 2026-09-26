@@ -328,38 +328,41 @@ Animate roster previews and media thumbnails on pointer interaction while preser
 
 **Purpose**
 
-Continuously scroll the duplicated news cards upward and wrap without a visible seam.
+Continuously scroll the duplicated news cards upward and wrap without a visible seam. The loop distance is one full unique card set (`yPercent: -50` of a doubled track), so the wrap is identical by construction at every viewport, breakpoint, and after resize.
 
 **Trigger and preconditions**
 
 - Route: any route that renders `NewsMarquee`.
-- Initial state: wrapper is measured after mount; six unique cards plus the first two duplicates are rendered.
+- Initial state: six unique news items are rendered twice inside `.marqueeTrack` (twelve `.boxMarquee` cards). The clip wrapper `.tiltFx--wrap1` is not translated. A single GSAP tween on the track starts automatically after mount.
 - User action or automatic trigger: automatic on mount.
 - Automation procedure:
-  1. Load the route and wait for layout to stabilize.
-  2. Record 31 seconds at the comparison viewport.
-  3. Inspect the 30-second wrap and capture before/after structural snapshots.
+  1. Load the route and wait for layout to stabilize (`document.fonts.ready`, `networkidle`, two animation frames).
+  2. Record at 1440 × 900 CSS pixels, DPR 2, `prefers-reduced-motion: no-preference`.
+  3. Capture 100 ms frames for the 0–1,000 ms window and the 29,500–31,000 ms window around the seam.
+  4. Read card positions and visible image `src`s at 29,900 ms, 30,000 ms, and 30,100 ms.
+  5. Repeat a seam continuity check after a mid-cycle resize and at a 667 × 375 landscape viewport (where `.tiltFx--wrap1` is clipped to `200vh`).
 
 **Expected timeline**
 
 | Timestamp | Phase | Visual behavior | Structural/accessibility behavior |
 | --- | --- | --- | --- |
-| 0 ms | initialization | Wrapper y position is set to zero. Each news image is centered within its marquee card and constrained to the column's inline width. | Eight news card nodes are present: six unique cards plus two duplicates. |
-| 0–30,000 ms | upward scroll | Each card moves upward linearly by one wrapper height. Images retain their horizontal and vertical centering as they move. | Card markup remains stable. |
-| 30,000 ms | wrap | Modifiers wrap y into the interval from zero to negative wrapper height. | No node is inserted or removed during the wrap. |
+| 0 ms | initialization | Track `yPercent` is 0. Each news image is centered within its marquee card and constrained to the column's inline width. Wrapper `y` is not set. | Twelve news card nodes are present: six unique cards followed by the same six as an identical duplicate set. One tween is attached to `.marqueeTrack`. |
+| 0–30,000 ms | upward scroll | The track moves upward linearly from `yPercent: 0` to `yPercent: -50`. Images retain their horizontal and vertical centering as they move. | Card markup remains stable. No node is inserted or removed. |
+| 30,000 ms | wrap | `repeat: -1` returns the track to `yPercent: 0`. Because the second half of the track is an identical copy of the first, the frame at `-50%` is pixel-identical to the frame at `0%`. | No node is inserted or removed during the wrap. Loop distance equals one full unique card set. |
 
 **Timing**
 
-- Duration: 30,000 ms per repeated cycle.
-- Delay: none after measurable wrapper height is available.
+- Duration: 30,000 ms per repeated cycle (one unique card set).
+- Delay: none after the track is mounted.
 - Easing: `none`.
-- Start and end tolerance: 100 ms at cycle boundary; no visible discontinuity.
-- Responsive sizing: each `.tiltFx__img` is no wider than its `.boxMarquee` column or 45vh, whichever is smaller, and retains its aspect ratio. As the viewport narrows, the image width must decrease with the column rather than overflow it.
+- Start and end tolerance: 100 ms at cycle boundary; no visible discontinuity. Card-position delta across the 30,000 ms boundary must equal one animation-frame of motion, not a snap.
+- Responsive sizing: each `.tiltFx__img` is no wider than 88% of its `.boxMarquee` column or 45vh, whichever is smaller, and retains its aspect ratio. The 88% cap keeps the side inset a 16:10 large laptop already gets from the 45vh height cap, including on tablet and small-laptop viewports, so the painted image does not meet the column edges. As the viewport narrows, the image width must decrease with the column rather than overflow it.
+- Viewport independence: the percent-based loop remains seamless after resize/orientation change and under the mobile-landscape `.tiltFx--wrap1 { height: 200vh }` clip. That clip only changes how much of the track is visible; it must not change the loop distance.
 
 **Lifecycle and interruption rules**
 
-- Cold load: if wrapper height is zero, no timeline is created until a later remount; normal capture requires a measurable layout.
-- Return navigation: remount creates a new repeat-forever timeline.
+- Cold load: a single repeat-forever tween is created on `.marqueeTrack` after mount.
+- Return navigation: remount creates a new repeat-forever tween on the track.
 - Repeated trigger: not user-triggered.
 - Interrupted interaction: not applicable.
 - Reduced motion: normal motion remains the current expected behavior.
@@ -367,16 +370,16 @@ Continuously scroll the duplicated news cards upward and wrap without a visible 
 **Assertions**
 
 - Required final state: after a cycle boundary, visible cards continue moving upward with no blank gap.
-- Required intermediate state: a duplicate card follows the sixth unique card before the wrap.
-- Forbidden transient states: a blank marquee column, jump larger than one animation-frame movement, an image offset from the center of its marquee card, a news image overflowing its column at a narrow viewport, or more than one active timeline per mounted card.
+- Required intermediate state: a duplicate copy of the first unique card immediately follows the sixth unique card; the second set is a complete copy of the first.
+- Forbidden transient states: a blank marquee column; jump larger than one animation-frame movement; an image offset from the center of its marquee card; a news image overflowing its column at a narrow viewport; more than one active tween on the track; loop distance that differs from one full unique card set.
 - Required DOM/accessibility assertions: each rendered image retains its text alternative; duplicate cards must not create focusable duplicate controls.
 
 **Verification**
 
-- Original URL: unavailable in this checkout; supply `ORIGINAL_URL` before parity review.
+- Original URL: unavailable in this checkout; supply `ORIGINAL_URL` before parity review. Baseline for this change is the pre-fix Next.js implementation captured as `original/` in the artifact directory.
 - Migrated URL: `http://localhost:3000/`
 - Artifact directory: `.cursor/artifacts/animations/news-marquee/`
-- UI mismatch threshold: mean at most 1.5%; peak critical frame at most 3%.
+- UI mismatch threshold: mean at most 1.5%; peak critical frame at most 3%. Frame-to-frame visual mismatch is not the acceptance test for this flow; seam continuity (no snap at 30,000 ms, no blank column, identical visible `src`s across the wrap) is.
 - Critical frames for human review: 0 ms, 15,000 ms, 29,900 ms, 30,000 ms, and 30,100 ms.
 
 ## Approval

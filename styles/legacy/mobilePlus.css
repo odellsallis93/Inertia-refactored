@@ -1,8 +1,10 @@
+/* Taller than a phone. Phone landscape is locked to the portrait layout. */
 @media only screen 
   and (min-device-width: 375px) 
   and (max-device-width: 812px) 
   and (-webkit-min-device-pixel-ratio: 3)
-  and (orientation: landscape) { 
+  and (orientation: landscape)
+  and (min-height: 501px) { 
 
 .menu__link--2, .menu__link--1, .menu__link--3  {
     font-size: 70% !important;

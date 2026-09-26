@@ -1,51 +1,30 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import gsap from "gsap";
+import { type RefObject } from "react";
+import { gsap, useGSAP } from "@/lib/gsap";
 
 interface UseMarqueeOptions {
   duration?: number;
-  ease?: string;
 }
 
 export function useMarquee(
-  containerRef: React.RefObject<HTMLElement>,
+  trackRef: RefObject<HTMLElement | null>,
   options: UseMarqueeOptions = {}
 ) {
-  const { duration = 30, ease = "none" } = options;
-  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const { duration = 30 } = options;
 
-  useEffect(() => {
-    if (!containerRef.current) return;
+  useGSAP(
+    () => {
+      const track = trackRef.current;
+      if (!track) return;
 
-    const container = containerRef.current;
-    const items = container.querySelectorAll(".boxMarquee");
-    const containerHeight = container.getBoundingClientRect().height;
-
-    if (items.length === 0 || containerHeight === 0) return;
-
-    items.forEach((item) => {
-      const tl = gsap.timeline({ repeat: -1 });
-      tl.set(container, { y: 0 }).to(item, {
+      gsap.to(track, {
+        yPercent: -50,
         duration,
-        ease,
-        y: containerHeight * -1,
-        modifiers: {
-          y: gsap.utils.unitize(gsap.utils.wrap(0, -containerHeight), "px"),
-        },
+        ease: "none",
+        repeat: -1,
       });
-
-      timelineRef.current = tl;
-    });
-
-    return () => {
-      timelineRef.current?.kill();
-    };
-  }, [containerRef, duration, ease]);
-
-  return {
-    pause: () => timelineRef.current?.pause(),
-    resume: () => timelineRef.current?.resume(),
-    kill: () => timelineRef.current?.kill(),
-  };
+    },
+    { scope: trackRef, dependencies: [duration] }
+  );
 }

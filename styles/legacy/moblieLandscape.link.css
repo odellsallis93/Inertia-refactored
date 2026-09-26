@@ -1,2 +1,3 @@
-@import "./moblieLandscape.css" (min-device-width: 375px) and (max-device-width: 667px) and (orientation: landscape);
+/* Phone landscape is locked to portrait, so this sheet only applies above phone height. */
+@import "./moblieLandscape.css" (min-device-width: 375px) and (max-device-width: 667px) and (orientation: landscape) and (min-height: 501px);
 

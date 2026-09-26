@@ -75,9 +75,106 @@ a,
   background-color: #1c1c1c !important;
 }
 
+.marqueeTrack {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  will-change: transform;
+}
+
 /* Welcome intro only: the cover swipes up green over the white side panel,
    so it must paint above .fullSite-WrapperWel (z-index 999). */
 .transBlk__lt.transBlk__lt--welcome {
   background-color: green !important;
   z-index: 1000;
+}
+
+/*
+ * Phones stay in the portrait layout when turned sideways.
+ * The stage is sized to portrait (short side × long side) and rotated
+ * so it stays aligned with the phone instead of reflowing to landscape.
+ * 1vh is the portrait width; 1vw is the portrait height.
+ */
+@media (orientation: landscape) and (max-height: 500px) and (pointer: coarse) {
+  html[data-portrait-lock] {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background-color: #1c1c1c;
+  }
+
+  html[data-portrait-lock="left"] body {
+    position: fixed;
+    width: 100vh;
+    height: 100vw;
+    min-width: 0;
+    min-height: 0;
+    max-width: 100vh;
+    max-height: 100vw;
+    top: 100%;
+    left: 0;
+    transform-origin: left top;
+    transform: rotate(-90deg);
+    overflow: hidden;
+  }
+
+  html[data-portrait-lock="right"] body {
+    position: fixed;
+    width: 100vh;
+    height: 100vw;
+    min-width: 0;
+    min-height: 0;
+    max-width: 100vh;
+    max-height: 100vw;
+    top: 0;
+    left: 100%;
+    transform-origin: left top;
+    transform: rotate(90deg);
+    overflow: hidden;
+  }
+
+  html[data-portrait-lock] .overlayGrid,
+  html[data-portrait-lock] .transCont__header,
+  html[data-portrait-lock] .artistNav__wrap {
+    height: 100vw;
+    max-height: 100vw;
+  }
+
+  html[data-portrait-lock] .artistNav__link {
+    height: 25vw !important;
+  }
+
+  html[data-portrait-lock] .tiltFx--wrap1 {
+    height: 300vw;
+  }
+
+  html[data-portrait-lock] .boxMarquee {
+    height: 50vw;
+  }
+
+  html[data-portrait-lock] .tiltFx__img {
+    width: min(100%, 45vw);
+    max-height: 45vw;
+  }
+
+  html[data-portrait-lock] h2 {
+    font-size: 4.5vh;
+  }
+
+  html[data-portrait-lock] .about-headers h1 {
+    font-size: 5vh;
+  }
+
+  html[data-portrait-lock] small {
+    font-size: 3.9vh !important;
+  }
+
+  html[data-portrait-lock] .closeButton {
+    transform: translate(-40vh, -44%) !important;
+  }
+
+  html[data-portrait-lock] #moviePlayer {
+    width: 50vh !important;
+    height: 50vw !important;
+  }
 }

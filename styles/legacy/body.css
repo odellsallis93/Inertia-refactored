@@ -125,13 +125,16 @@ h3 {
 	opacity: 0.5;
 }
 
-/* Individual images */
+/* Individual images.
+   88% matches the side inset a 16:10 large laptop already gets from the
+   45vh cap, so portrait news images keep that gap on tablet and small
+   laptop viewports instead of meeting the column edges. */
 .tiltFx__img {
 	display: block;
 	opacity: 0.9;
-	width: min(100%, 45vh);
+	width: min(88%, 45vh);
 	height: auto;
-	max-width: 100%;
+	max-width: 88%;
 	max-height: 45vh;
 	position: relative;
 	z-index: 3;
