@@ -40,3 +40,17 @@ A task is not done until the evidence bundle supports the claim. Use the global
 under `.cursor/artifacts/animations/<flow>/`, and run the `anim:*` scripts in
 `package.json`; each test run stores the behavior spec and capture metadata
 alongside its evidence.
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in GitHub Issues on `odellsallis93/Inertia-refactored`, operated via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: one `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.

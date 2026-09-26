@@ -1,0 +1,307 @@
+#!/usr/bin/env bash
+# control-inertia: launch, check, drive, and tear down an isolated Inertia
+# instance for verification. See ../SKILL.md for the workflow.
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../../../.." && pwd)"
+ARTIFACTS="$REPO_ROOT/.cursor/artifacts/verify-inertia"
+RUNS="$ARTIFACTS/runs"
+CURRENT_RUN_FILE="$ARTIFACTS/.current-run"
+NEXT_BIN="$REPO_ROOT/node_modules/next/dist/bin/next"
+
+VIEWPORT_W="${VERIFY_VIEWPORT_WIDTH:-1440}"
+VIEWPORT_H="${VERIFY_VIEWPORT_HEIGHT:-900}"
+VIEWPORT_DPR="${VERIFY_DPR:-1}"
+READY_TIMEOUT_MS="${VERIFY_READY_TIMEOUT_MS:-60000}"
+
+# The persistent shell is interactive once the intro / route transition has
+# fully retracted: wrapper visible, welcome layer gone, every transition slice
+# collapsed to scaleX 0, page cover collapsed to scaleY 0 (or still hidden),
+# and the page copy (.allText) has had its GSAP inline transform cleared,
+# which is the final step before SiteChrome starts accepting link clicks again.
+READY_JS='(() => {
+  const copy = document.querySelectorAll(".allText");
+  if (copy.length === 0) return false;
+  for (const el of copy) if (el.style.transform !== "") return false;
+  const w = document.querySelector(".fullSite-Wrapper");
+  if (!w) return false;
+  const ws = getComputedStyle(w);
+  if (ws.visibility !== "visible" || Number(ws.opacity) < 0.99) return false;
+  const wel = document.querySelector(".fullSite-WrapperWel");
+  if (wel && getComputedStyle(wel).display !== "none") return false;
+  const scale = (el, axis) => {
+    const t = getComputedStyle(el).transform;
+    if (!t || t === "none") return 1;
+    const m = new DOMMatrixReadOnly(t);
+    return axis === "x" ? m.a : m.d;
+  };
+  const slices = document.querySelectorAll(".transCont__gridleft, .transCont__News, .transCont__about, .transCont__overlayGrid, .transCont__header");
+  if (slices.length === 0) return false;
+  for (const el of slices) if (Math.abs(scale(el, "x")) > 0.01) return false;
+  const cover = document.querySelector(".transBlk__lt");
+  if (cover && getComputedStyle(cover).visibility !== "hidden" && Math.abs(scale(cover, "y")) > 0.01) return false;
+  return true;
+})()'
+
+usage() {
+  cat <<EOF
+Usage: control-inertia <command> [args]
+
+  up [--skip-build]        Build (unless skipped) and start an isolated production server. Prints RUN_ID and URL.
+  doctor                   Read-only health check of the current run's server. Exit 0 = worth driving.
+  url [path]               Print the base URL (optionally with a path) for the current run.
+  open <path>              Open a route in the run's browser session and wait until the shell is interactive.
+  ready                    Wait until the shell is interactive (after in-app navigation).
+  browser <args...>        Run any agent-browser command inside the run's isolated session.
+  capture <feature> <name> Save URL, ARIA snapshot, and screenshot under evidence/<feature>/<name>.*
+  evidence [feature]       Print the evidence directory (created on demand).
+  list                     Show every run directory and whether its server is still alive.
+  down                     Close the browser session and stop the server this run started. Keeps evidence.
+
+Environment:
+  VERIFY_RUN_ID            Select a run explicitly (default: the run recorded by the last 'up').
+  VERIFY_PORT              Port for 'up' (default: first free port in 3400-3499).
+  VERIFY_VIEWPORT_WIDTH/HEIGHT/DPR   Browser viewport (default 1440x900 @1).
+  VERIFY_READY_TIMEOUT_MS  Max wait for the shell to become interactive (default 60000; the intro is ~15s).
+EOF
+}
+
+die() { echo "control-inertia: $*" >&2; exit 1; }
+
+require_tools() {
+  command -v node >/dev/null || die "node not found on PATH"
+  command -v agent-browser >/dev/null || die "agent-browser not found on PATH (npm i -g agent-browser)"
+  command -v lsof >/dev/null || die "lsof not found"
+  command -v curl >/dev/null || die "curl not found"
+  [[ -f "$NEXT_BIN" ]] || die "next is not installed; run 'bun install' in $REPO_ROOT"
+}
+
+resolve_run() {
+  if [[ -n "${VERIFY_RUN_ID:-}" ]]; then
+    RUN_ID="$VERIFY_RUN_ID"
+  elif [[ -f "$CURRENT_RUN_FILE" ]]; then
+    RUN_ID="$(cat "$CURRENT_RUN_FILE")"
+  else
+    die "no current run; start one with 'control-inertia up' or set VERIFY_RUN_ID"
+  fi
+  RUN_DIR="$RUNS/$RUN_ID"
+  STATE_DIR="$RUN_DIR/state"
+  EVIDENCE_DIR="$RUN_DIR/evidence"
+  SESSION="verify-inertia-$RUN_ID"
+}
+
+load_state() {
+  [[ -f "$STATE_DIR/port" && -f "$STATE_DIR/server.pid" ]] || die "run $RUN_ID has no live state (already torn down?)"
+  PORT="$(cat "$STATE_DIR/port")"
+  SERVER_PID="$(cat "$STATE_DIR/server.pid")"
+  BASE_URL="http://127.0.0.1:$PORT"
+}
+
+port_owner() {
+  lsof -nP -iTCP:"$1" -sTCP:LISTEN -t 2>/dev/null | head -n1 || true
+}
+
+pick_port() {
+  if [[ -n "${VERIFY_PORT:-}" ]]; then
+    [[ -z "$(port_owner "$VERIFY_PORT")" ]] || die "VERIFY_PORT=$VERIFY_PORT is already in use"
+    echo "$VERIFY_PORT"; return
+  fi
+  local p
+  for p in $(seq 3400 3499); do
+    if [[ -z "$(port_owner "$p")" ]]; then echo "$p"; return; fi
+  done
+  die "no free port in 3400-3499; set VERIFY_PORT"
+}
+
+ab() { agent-browser --session "$SESSION" "$@"; }
+
+cmd_up() {
+  require_tools
+  local skip_build=0
+  for a in "$@"; do
+    case "$a" in
+      --skip-build) skip_build=1 ;;
+      *) die "unknown flag for up: $a" ;;
+    esac
+  done
+
+  RUN_ID="${VERIFY_RUN_ID:-$(date +%Y%m%d-%H%M%S)-$$}"
+  RUN_DIR="$RUNS/$RUN_ID"; STATE_DIR="$RUN_DIR/state"; EVIDENCE_DIR="$RUN_DIR/evidence"
+  [[ -f "$STATE_DIR/server.pid" ]] && die "run $RUN_ID already has a server; run 'down' first"
+  mkdir -p "$STATE_DIR" "$EVIDENCE_DIR"
+
+  if [[ "$skip_build" -eq 0 ]]; then
+    echo "control-inertia: building (next build) ..." >&2
+    (cd "$REPO_ROOT" && node "$NEXT_BIN" build > "$STATE_DIR/build.log" 2>&1) \
+      || { tail -n 40 "$STATE_DIR/build.log" >&2; die "next build failed; see $STATE_DIR/build.log"; }
+  fi
+  [[ -f "$REPO_ROOT/.next/BUILD_ID" ]] || die "no production build in .next/; run without --skip-build"
+  cp "$REPO_ROOT/.next/BUILD_ID" "$STATE_DIR/build-id"
+
+  PORT="$(pick_port)"
+  echo "$PORT" > "$STATE_DIR/port"
+  # Detach into its own process group so the server outlives the shell that
+  # started it (agent tool shells kill their process group on exit).
+  (cd "$REPO_ROOT" && node -e '
+    const { spawn } = require("child_process"); const fs = require("fs");
+    const [nextBin, port, log] = process.argv.slice(1);
+    const out = fs.openSync(log, "a");
+    const child = spawn(process.execPath, [nextBin, "start", "-p", port, "-H", "127.0.0.1"],
+      { detached: true, stdio: ["ignore", out, out] });
+    child.unref();
+    console.log(child.pid);
+  ' "$NEXT_BIN" "$PORT" "$STATE_DIR/server.log" > "$STATE_DIR/server.pid")
+  SERVER_PID="$(cat "$STATE_DIR/server.pid")"
+  BASE_URL="http://127.0.0.1:$PORT"
+
+  local i
+  for i in $(seq 1 60); do
+    if curl -sf -o /dev/null "$BASE_URL/"; then break; fi
+    kill -0 "$SERVER_PID" 2>/dev/null || { tail -n 40 "$STATE_DIR/server.log" >&2; die "server exited during startup"; }
+    sleep 0.5
+  done
+  curl -sf -o /dev/null "$BASE_URL/" || die "server did not answer on $BASE_URL within 30s; see $STATE_DIR/server.log"
+
+  echo "$RUN_ID" > "$CURRENT_RUN_FILE"
+  echo "RUN_ID=$RUN_ID"
+  echo "URL=$BASE_URL"
+  echo "PID=$SERVER_PID"
+  echo "EVIDENCE=$EVIDENCE_DIR"
+}
+
+check() { # check <label> <command...>
+  local label="$1"; shift
+  if "$@" >/dev/null 2>&1; then echo "ok    $label"; else echo "FAIL  $label"; DOCTOR_FAILED=1; fi
+}
+
+cmd_doctor() {
+  resolve_run; load_state
+  DOCTOR_FAILED=0
+  echo "run   $RUN_ID  ($BASE_URL, pid $SERVER_PID)"
+  check "server process alive" kill -0 "$SERVER_PID"
+  check "port $PORT owned by our pid" test "$(port_owner "$PORT")" = "$SERVER_PID"
+  local headers; headers="$(curl -sI "$BASE_URL/" 2>/dev/null || true)"
+  check "GET / returns 200" grep -qi '^HTTP/[0-9.]* 200' <<<"$headers"
+  check "served by Next.js" grep -qi '^x-powered-by: Next.js' <<<"$headers"
+  local body; body="$(curl -s "$BASE_URL/" 2>/dev/null || true)"
+  check "shell markup present (.fullSite-Wrapper)" grep -q 'class="fullSite-Wrapper"' <<<"$body"
+  check "menu button present (#openButton)" grep -q 'id="openButton"' <<<"$body"
+  local build_id; build_id="$(cat "$STATE_DIR/build-id")"
+  check "on-disk build id unchanged since up ($build_id)" test "$(cat "$REPO_ROOT/.next/BUILD_ID" 2>/dev/null)" = "$build_id"
+  check "server serves that build's manifest" curl -sf -o /dev/null "$BASE_URL/_next/static/$build_id/_buildManifest.js"
+  check "agent-browser available" command -v agent-browser
+  [[ "$DOCTOR_FAILED" -eq 0 ]] || { echo "doctor: not healthy; do not drive this instance" >&2; exit 1; }
+}
+
+cmd_url() {
+  resolve_run; load_state
+  echo "$BASE_URL${1:-}"
+}
+
+wait_ready() {
+  ab wait --fn "document.fonts && document.fonts.status === 'loaded'" --timeout 15000 >/dev/null
+  ab wait --fn "$READY_JS" --timeout "$READY_TIMEOUT_MS" >/dev/null
+}
+
+cmd_open() {
+  resolve_run; load_state
+  local path="${1:?open needs a path, e.g. / or /about}"
+  ab set viewport "$VIEWPORT_W" "$VIEWPORT_H" "$VIEWPORT_DPR" >/dev/null
+  ab open "$BASE_URL$path" >/dev/null
+  ab wait --load load >/dev/null
+  wait_ready
+  echo "open  $BASE_URL$path  (shell interactive)"
+}
+
+cmd_ready() {
+  resolve_run; load_state
+  wait_ready
+  echo "ready $(ab get url)"
+}
+
+cmd_browser() {
+  resolve_run
+  exec agent-browser --session "$SESSION" "$@"
+}
+
+cmd_capture() {
+  resolve_run; load_state
+  local feature="${1:?capture needs <feature> <name>}" name="${2:?capture needs <feature> <name>}"
+  local dir="$EVIDENCE_DIR/$feature"
+  mkdir -p "$dir"
+  ab get url > "$dir/$name.url.txt"
+  ab snapshot -i > "$dir/$name.aria.txt"
+  ab screenshot "$dir/$name.png" >/dev/null
+  echo "$dir/$name.url.txt"
+  echo "$dir/$name.aria.txt"
+  echo "$dir/$name.png"
+}
+
+cmd_evidence() {
+  resolve_run
+  local dir="$EVIDENCE_DIR${1:+/$1}"
+  mkdir -p "$dir"
+  echo "$dir"
+}
+
+cmd_list() {
+  [[ -d "$RUNS" ]] || { echo "no runs"; return; }
+  local current=""; [[ -f "$CURRENT_RUN_FILE" ]] && current="$(cat "$CURRENT_RUN_FILE")"
+  local d id status
+  for d in "$RUNS"/*/; do
+    [[ -d "$d" ]] || continue
+    id="$(basename "$d")"
+    if [[ -f "$d/state/server.pid" ]] && kill -0 "$(cat "$d/state/server.pid")" 2>/dev/null; then
+      status="running on port $(cat "$d/state/port")"
+    elif [[ -f "$d/state/server.pid" ]]; then
+      status="stale state (server gone; run 'VERIFY_RUN_ID=$id control-inertia down')"
+    else
+      status="torn down"
+    fi
+    [[ "$id" == "$current" ]] && status="$status  [current]"
+    echo "$id  $status"
+  done
+}
+
+cmd_down() {
+  resolve_run
+  agent-browser --session "$SESSION" close >/dev/null 2>&1 || true
+  if [[ -f "$STATE_DIR/server.pid" ]]; then
+    local pid port owner
+    pid="$(cat "$STATE_DIR/server.pid")"
+    port="$(cat "$STATE_DIR/port" 2>/dev/null || true)"
+    if kill -0 "$pid" 2>/dev/null; then
+      owner="$(port_owner "$port")"
+      if [[ -n "$port" && -n "$owner" && "$owner" != "$pid" ]]; then
+        die "port $port is owned by pid $owner, not our pid $pid; refusing to kill. Inspect manually."
+      fi
+      kill "$pid" 2>/dev/null || true
+      local i; for i in $(seq 1 20); do kill -0 "$pid" 2>/dev/null || break; sleep 0.25; done
+      kill -0 "$pid" 2>/dev/null && kill -9 "$pid" 2>/dev/null || true
+    fi
+    rm -rf "$STATE_DIR"
+  fi
+  if [[ -f "$CURRENT_RUN_FILE" && "$(cat "$CURRENT_RUN_FILE")" == "$RUN_ID" ]]; then rm -f "$CURRENT_RUN_FILE"; fi
+  echo "down  $RUN_ID  (evidence kept at $EVIDENCE_DIR)"
+}
+
+main() {
+  local cmd="${1:-}"; shift || true
+  case "$cmd" in
+    up) cmd_up "$@" ;;
+    doctor) cmd_doctor ;;
+    url) cmd_url "$@" ;;
+    open) cmd_open "$@" ;;
+    ready) cmd_ready ;;
+    browser) cmd_browser "$@" ;;
+    capture) cmd_capture "$@" ;;
+    evidence) cmd_evidence "$@" ;;
+    list) cmd_list ;;
+    down) cmd_down ;;
+    -h|--help|help|"") usage ;;
+    *) usage >&2; die "unknown command: $cmd" ;;
+  esac
+}
+
+main "$@"

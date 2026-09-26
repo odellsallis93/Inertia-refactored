@@ -39,5 +39,8 @@ next-env.d.ts
 /.cursor/artifacts/animations/*
 !/.cursor/artifacts/animations/.gitkeep
 
+# verify-inertia runs (server state + proof evidence)
+/.cursor/artifacts/verify-inertia/
+
 /discord-post-GPT-versions/
 /extracted-openai-log/
